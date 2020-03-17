@@ -1,6 +1,26 @@
-#include "add.h"
+
 #include <iostream>
 
+#include "Decima.h"
+
 int main() {
-  std::cout << "5 + 5 = " << add(5, 5) << std::endl;
+  Decima a = "1111111118";
+  Decima b = "2222222226";
+  Decima c;
+  c = a + b;
+  cout << endl;
+  cout << a;
+  cout << endl;
+  cout << b;
+  cout << endl;
+ 
+  if (a == b) {
+    cout << "ravno ";
+  }
+  else {
+    cout << "ne ravno ";
+  }
+  getchar();
+  getchar();
+  return 0;
 }
