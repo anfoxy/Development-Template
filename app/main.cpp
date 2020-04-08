@@ -1,24 +1,29 @@
-
-#include <iostream>
-
 #include "Decima.h"
-
 int main() {
-  Decima a = "1111111118";
-  Decima b = "2222222226";
-  Decima c;
-  c = a + b;
-  cout << endl;
+  setlocale(LC_CTYPE, "Russian");
+  Decima a = "43456";
+  Decima b = "111";
+  Decima c, f;
+  cout << "a =  " ;
   cout << a;
-  cout << endl;
+  cout << "b =  ";
   cout << b;
-  cout << endl;
- 
+  cout << "введите сначала количество цифр в числе, а потом цифры" << endl;
+  cin >> f;
+  cout << "ваше число =  ";
+  cout << f;
+  cout << "a - b= " ;
+  c = a - b;
+  cout << c;
+  cout << "a + b= " ;
+  c = a + b;
+  cout << c;
+  
   if (a == b) {
-    cout << "ravno ";
+    cout << " a равно b";
   }
   else {
-    cout << "ne ravno ";
+    cout << "a не равно b";
   }
   getchar();
   getchar();

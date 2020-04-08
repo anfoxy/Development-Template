@@ -1,18 +1,20 @@
 #include "Decima.h"
-ostream& operator<<(ostream& stream, const Decima& c);
-istream& operator>>(istream& stream, Decima& c);
-Decima::Decima() {
-  dec = 0;
+ostream& operator<<(ostream& stream, const Decima &d);
+istream& operator>>(istream& stream, Decima &d); // ввод из потока
+
+
+// Констуктор по умолчанию
+Decima::Decima()
+{
   size = 0;
+  dec = NULL;
 }
-Decima::~Decima() {
-  delete[] dec;
-  size = 0;
+// Констуктор инициализатор
+Decima::Decima(int _size) : size(_size)
+{
+  dec = new unsigned char[size];
 }
-Decima::Decima(const Decima& c) {
-  dec = c.dec;
-  size = c.size;
-}
+// Констуктор инициализатор
 Decima::Decima(const char* get) {
 
   size = strlen(get);
@@ -22,9 +24,41 @@ Decima::Decima(const char* get) {
     dec[i] = *get;
   }
 }
-Decima& Decima::operator=(const Decima& c) {
-  (*this).dec = c.dec;
-  (*this).size = c.size;
+// Констуктор копирования
+Decima::Decima(const Decima &vec) {
+  size = vec.size;
+  dec = new unsigned char[size];
+  for (int i = 0; i < size; ++i)
+    dec[i] = vec.dec[i];
+}
+// Деструктор
+Decima::~Decima() {
+  if (dec != NULL)
+  {
+    delete[] dec;
+    dec = NULL;
+    size = 0;
+  }
+}
+//вывод в поток
+ostream& operator<<(ostream& stream, const Decima &d) {
+  for (int i = d.size - 1; i < d.size; --i)
+    stream << d.dec[i];
+  stream << endl;
+  return stream;
+}
+// операция присваивания	
+Decima& Decima::operator=(const Decima &d) {
+  if (this != &d) {
+    if (size != d.size)
+    {
+      delete[] dec;
+      size = d.size;
+      dec = new unsigned char[size];
+    }
+    for (int i = 0; i < size; ++i)
+      dec[i] = d.dec[i];
+  }
   return *this;
 }
 bool Decima::operator==(const Decima& c) {
@@ -40,37 +74,108 @@ bool Decima::operator==(const Decima& c) {
   }
 }
 Decima Decima::operator+(const Decima& c) {  //не могу решить проблему 
-  
-  Decima res;
-  int *b = new int [size];
-  unsigned char k = 0;
-  res.size = (size < c.size) ? c.size : size;
-  for (int i = 0; i < res.size; i++) {
-    b[i] = (dec[i]-'0') +(c.dec[i]-'0') + k;
+  int s, s1;
+  int k = 0;
+  s = (size < c.size) ? c.size : size;
+  s1 = (size > c.size) ? c.size : size;
+  int *b = new int[s];
+  if (size < c.size) {
+
+    for (int i = s1; i < s; ++i) {
+      dec[i] = '0';
+    }
+  }
+  else {
+
+    for (int i = s1; i < s; ++i) {
+      c.dec[i] = '0';
+    }
+  }
+  for (int i = 0; i < s; i++) {
+    b[i] = (dec[i] - '0') + (c.dec[i] - '0') + k;
     k = 0;
     if (b[i] > 9) {
       b[i] = fmod(b[i], 10);
       k = 1;
     }
+  }if (k == 1) {
+    Decima res(s + 1);
+    b[s] = 1;
+    for (int i = s; i >= 0; i--) {
+      res.dec[i] = b[i];
+      res.dec[i] = res.dec[i] + 48;
+    }
+    return res;
   }
-  
-  for (int i = size - 1; i >= 0; i--) {
+  else {
+    Decima res(s);
+    for (int i = s - 1; i >= 0; i--) {
+      res.dec[i] = b[i];
+      res.dec[i] = res.dec[i] + 48;
+    }
+    return res;
+  }
+}
+
+Decima Decima::operator-(const Decima& c) {
+  int s, ms, s1;
+  int k = 0;
+  s = (size < c.size) ? c.size : size;
+  s1 = (size > c.size) ? c.size : size;
+  int *b = new int[s];
+  if (size < c.size) {
+    for (int i = s1; i < s; ++i) {
+      dec[i] = '0';
+    }
+  }
+  if (size > c.size) {
+    for (int i = s1; i < s; ++i) {
+      c.dec[i] = '0';
+    }
+  }
+  Decima res(s);
+  ms = (c.dec[s - 1] - '0') - (dec[s - 1] - '0');
+  if (ms < 0) {
+    for (int i = 0; i < s; i++) {
+      b[i] = (dec[i] - '0') - (c.dec[i] - '0') + k;
+      k = 0;
+      if (b[i] < 0) {
+        b[i] = b[i] + 10;
+        k = -1;
+      }
+    }
+  }
+  else {
+    for (int i = 0; i < s; i++) {
+      b[i] = (c.dec[i] - '0') - (dec[i] - '0') + k;
+      k = 0;
+      if (b[i] < 0) {
+        b[i] = b[i] + 10;
+        k = -1;
+      }
+    }
+  }
+  if (ms > 0) {
+    cout << "-";
+  }
+  for (int i = s - 1; i >= 0; i--) {
     res.dec[i] = b[i];
+    res.dec[i] = res.dec[i] + 48;
   }
+
   return res;
 }
-ostream& operator<<(ostream& stream, const Decima& c) {
-  for (int i = c.size - 1; i < c.size; --i)
+istream& operator>>(istream& stream, Decima &d) {
+  int str;
+  stream >> str;
+  if (d.size != str)
   {
-    stream << c.dec[i];
+    if (d.dec != NULL)
+      delete[] d.dec;
+    d.size = str;
+    d.dec = new  unsigned char[str];
   }
+  for (int i = d.size - 1; i < d.size; --i)
+    stream >> d.dec[i];
   return stream;
-}
-istream& operator>>(istream& stream, Decima& c) {
-  for (int i = c.size - 1; i < c.size; --i)
-  {
-    stream >> c.dec[i];
-  }
-  return stream;
-
 }
