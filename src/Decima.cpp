@@ -25,12 +25,13 @@ Decima::Decima(const char* get) {
   }
 }
 // Констуктор копирования
-Decima::Decima(const Decima &vec) {
-  size = vec.size;
+Decima::Decima(const Decima &d) {
+  size = d.size;
   dec = new unsigned char[size];
   for (int i = 0; i < size; ++i)
-    dec[i] = vec.dec[i];
+    dec[i] = d.dec[i];
 }
+
 // Деструктор
 Decima::~Decima() {
   if (dec != NULL)
@@ -73,97 +74,203 @@ bool Decima::operator==(const Decima& c) {
     return res;
   }
 }
-Decima Decima::operator+(const Decima& c) {  //не могу решить проблему 
-  int s, s1;
+Decima Decima::operator+(const Decima& c) {  
+  int s, s1,ms1;
   int k = 0;
   s = (size < c.size) ? c.size : size;
   s1 = (size > c.size) ? c.size : size;
+  ms1 = s - s1;
   int *b = new int[s];
   if (size < c.size) {
+      Decima this_copy(size + ms1);
+      Decima c_copy(c);
+      for (int i = 0; i < s1; i++) {
+        this_copy.dec[i] = dec[i];
+      }
+      for (int i = s1; i < s; ++i) {
+        this_copy.dec[i] = '0';
+      }
+      for (int i = 0; i < s; i++) {
+        b[i] = (this_copy.dec[i] - '0') + (c_copy.dec[i] - '0') + k;
+        k = 0;
+        if (b[i] > 9) {
+          b[i] = fmod(b[i], 10);
+          k = 1;
+        }
+      }if (k == 1) {
+        Decima res(s + 1);
+        b[s] = 1;
+        for (int i = s; i >= 0; i--) {
+          res.dec[i] = b[i];
+          res.dec[i] = res.dec[i] + 48;
+        }
+        return res;
+      }
+      else {
+        Decima res(s);
+        for (int i = s - 1; i >= 0; i--) {
+          res.dec[i] = b[i];
+          res.dec[i] = res.dec[i] + 48;
+        }
+        return res;
+      }
+  } else {
+    if (size > c.size) {
+      Decima c_copy(c.size + ms1);
+      Decima this_copy(*this);
+      for (int i = 0; i < s1; i++) {
+        c_copy.dec[i] = c.dec[i];
+      }
+      for (int i = s1; i < s; ++i) {
+        c_copy.dec[i] = '0';
+      }
+      for (int i = 0; i < s; i++) {
+        b[i] = (this_copy.dec[i] - '0') + (c_copy.dec[i] - '0') + k;
+        k = 0;
+        if (b[i] > 9) {
+          b[i] = fmod(b[i], 10);
+          k = 1;
+        }
+      }if (k == 1) {
+        Decima res(s + 1);
+        b[s] = 1;
+        for (int i = s; i >= 0; i--) {
+          res.dec[i] = b[i];
+          res.dec[i] = res.dec[i] + 48;
+        }
+        return res;
+      }
+      else {
+        Decima res(s);
+        for (int i = s - 1; i >= 0; i--) {
+          res.dec[i] = b[i];
+          res.dec[i] = res.dec[i] + 48;
+        }
+        return res;
+      }
+    } else {
+      Decima c_copy(c);
+      Decima this_copy(*this);
+      for (int i = 0; i < s; i++) {
+        b[i] = (this_copy.dec[i] - '0') + (c_copy.dec[i] - '0') + k;
+        k = 0;
+        if (b[i] > 9) {
+          b[i] = fmod(b[i], 10);
+          k = 1;
+        }
+      }if (k == 1) {
+        Decima res(s + 1);
+        b[s] = 1;
+        for (int i = s; i >= 0; i--) {
+          res.dec[i] = b[i];
+          res.dec[i] = res.dec[i] + 48;
+        }
+        return res;
+      } else {
+        Decima res(s);
+        for (int i = s - 1; i >= 0; i--) {
+          res.dec[i] = b[i];
+          res.dec[i] = res.dec[i] + 48;
+        }
+        return res;
+      }
+    }
+  }
+}
 
+Decima Decima::operator-(const Decima& c) {
+  int s, ms, s1,ms1;
+  int k = 0;
+  s = (size < c.size) ? c.size : size;
+  s1 = (size > c.size) ? c.size : size;
+  ms1 = s-s1;
+  int *b = new int[s];
+  if (size < c.size) {
+    Decima this_copy(size + ms1);
+    Decima c_copy(c);
+    for (int i = 0; i < s1; i++) {
+      this_copy.dec[i] = dec[i];
+    }
     for (int i = s1; i < s; ++i) {
-      dec[i] = '0';
+      this_copy.dec[i] = '0';
     }
-  }
-  else {
-
-    for (int i = s1; i < s; ++i) {
-      c.dec[i] = '0';
-    }
-  }
-  for (int i = 0; i < s; i++) {
-    b[i] = (dec[i] - '0') + (c.dec[i] - '0') + k;
-    k = 0;
-    if (b[i] > 9) {
-      b[i] = fmod(b[i], 10);
-      k = 1;
-    }
-  }if (k == 1) {
-    Decima res(s + 1);
-    b[s] = 1;
-    for (int i = s; i >= 0; i--) {
-      res.dec[i] = b[i];
-      res.dec[i] = res.dec[i] + 48;
-    }
-    return res;
-  }
-  else {
     Decima res(s);
+      for (int i = 0; i < s; i++) {
+        b[i] = (c_copy.dec[i] - '0') - (this_copy.dec[i] - '0') + k;
+        k = 0;
+        if (b[i] < 0) {
+          b[i] = b[i] + 10;
+          k = -1;
+        }
+      }
+    cout << "-";
     for (int i = s - 1; i >= 0; i--) {
       res.dec[i] = b[i];
       res.dec[i] = res.dec[i] + 48;
     }
     return res;
   }
-}
-
-Decima Decima::operator-(const Decima& c) {
-  int s, ms, s1;
-  int k = 0;
-  s = (size < c.size) ? c.size : size;
-  s1 = (size > c.size) ? c.size : size;
-  int *b = new int[s];
-  if (size < c.size) {
-    for (int i = s1; i < s; ++i) {
-      dec[i] = '0';
-    }
-  }
-  if (size > c.size) {
-    for (int i = s1; i < s; ++i) {
-      c.dec[i] = '0';
-    }
-  }
-  Decima res(s);
-  ms = (c.dec[s - 1] - '0') - (dec[s - 1] - '0');
-  if (ms < 0) {
-    for (int i = 0; i < s; i++) {
-      b[i] = (dec[i] - '0') - (c.dec[i] - '0') + k;
-      k = 0;
-      if (b[i] < 0) {
-        b[i] = b[i] + 10;
-        k = -1;
-      }
-    }
-  }
   else {
-    for (int i = 0; i < s; i++) {
-      b[i] = (c.dec[i] - '0') - (dec[i] - '0') + k;
-      k = 0;
-      if (b[i] < 0) {
-        b[i] = b[i] + 10;
-        k = -1;
+    if (size > c.size) {
+      Decima c_copy(c.size + ms1);
+      Decima this_copy(*this);
+      for (int i = 0; i < s1; i++) {
+        c_copy.dec[i] = c.dec[i];
       }
+      for (int i = s1; i < s; ++i) {
+        c_copy.dec[i] = '0';
+      }
+      Decima res(s);
+        for (int i = 0; i < s; i++) {
+          b[i] = (this_copy.dec[i] - '0') - (c_copy.dec[i] - '0') + k;
+          k = 0;
+          if (b[i] < 0) {
+            b[i] = b[i] + 10;
+            k = -1;
+          }
+        }
+      for (int i = s - 1; i >= 0; i--) {
+        res.dec[i] = b[i];
+        res.dec[i] = res.dec[i] + 48;
+      }
+      return res;
+    }
+    else {
+      Decima c_copy(c);
+      Decima this_copy(*this);
+      Decima res(s);
+      ms = (c_copy.dec[s-1] - '0') - (this_copy.dec[s-1] - '0');
+      if (ms <= 0) {
+        for (int i = 0; i < s; i++) {
+          b[i] = (this_copy.dec[i] - '0') - (c_copy.dec[i] - '0') + k;
+          k = 0;
+          if (b[i] < 0) {
+            b[i] = b[i] + 10;
+            k = -1;
+          }
+        }
+      }
+      else {
+        for (int i = 0; i < s; i++) {
+          b[i] = (c_copy.dec[i] - '0') - (this_copy.dec[i] - '0') + k;
+          k = 0;
+          if (b[i] < 0) {
+            b[i] = b[i] + 10;
+            k = -1;
+          }
+        }
+      }
+      if (ms > 0) {
+        cout << "-";
+      }
+
+      for (int i = s - 1; i >= 0; i--) {
+        res.dec[i] = b[i];
+        res.dec[i] = res.dec[i] + 48;
+      }
+      return res;
     }
   }
-  if (ms > 0) {
-    cout << "-";
-  }
-  for (int i = s - 1; i >= 0; i--) {
-    res.dec[i] = b[i];
-    res.dec[i] = res.dec[i] + 48;
-  }
-
-  return res;
 }
 istream& operator>>(istream& stream, Decima &d) {
   int str;

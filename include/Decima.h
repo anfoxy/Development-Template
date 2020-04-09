@@ -14,7 +14,7 @@ public:
   Decima();
   explicit Decima(int _size);
   Decima(const char* get);
-  Decima(const Decima &dec);
+  Decima(const Decima &d);
   ~Decima();
   Decima& operator=(const Decima &d);
   bool operator == (const Decima & c);
