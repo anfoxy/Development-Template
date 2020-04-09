@@ -62,18 +62,7 @@ Decima& Decima::operator=(const Decima &d) {
   }
   return *this;
 }
-bool Decima::operator==(const Decima& c) {
-  bool res = 0;
-  for (int i = 0; (i < size) && (i < c.size) && (res = true); i++) {
-    if (dec[i] == c.dec[i]) {
-      res = true;
-    }
-    else {
-      res = false;
-    }
-    return res;
-  }
-}
+
 Decima Decima::operator+(const Decima& c) {  
   int s, s1,ms1;
   int k = 0;

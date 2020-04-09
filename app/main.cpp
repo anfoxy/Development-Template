@@ -1,7 +1,7 @@
 #include "Decima.h"
 int main() {
   setlocale(LC_CTYPE, "Russian");
-  Decima a = "436";
+  Decima a = "33";
   Decima b = "11";
   Decima c, f;
   cout << "a =  " ;
