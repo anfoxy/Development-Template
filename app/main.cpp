@@ -5,7 +5,9 @@ int main() {
   string g = "menuu.txt";
   vector <string> n1 = { "One", "Two", "Three" };
   Menu a(n1, k, 0, 0, 300);
+  Menu f("menuu.txt");
   cout << a;
+  cout << f;
   getchar();
   getchar();
   return 0;

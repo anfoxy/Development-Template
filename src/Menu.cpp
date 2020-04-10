@@ -8,7 +8,7 @@ Menu::Menu(vector <string> naz, int k, int x, int y, int d) {
   Cor.size = d;
 }
 Menu::Menu(string n) {
-  ifstream str("menuu.txt");
+  ifstream str(n);
   if (!str.is_open()) // если файл не открыт
     cout << "Файл не может быть открыт!\n"; // сообщить об этом
   else
