@@ -1,30 +1,15 @@
-#include "Decima.h"
+#include "Menu.h"
 int main() {
   setlocale(LC_CTYPE, "Russian");
-  Decima a = "43456";
-  Decima b = "111";
-  Decima c, f;
-  cout << "a =  " ;
+  const int k = 3;
+  string g = "menuu.txt";
+  vector <string> n1 = { "One", "Two", "Three" };
+  Menu a(n1, k, 0, 0, 300);
+  Menu b(g);
   cout << a;
-  cout << "b =  ";
-  cout << b;
-  cout << "введите сначала количество цифр в числе, а потом цифры" << endl;
-  cin >> f;
-  cout << "ваше число =  ";
-  cout << f;
-  cout << "a - b= " ;
-  c = a - b;
-  cout << c;
-  cout << "a + b= " ;
-  c = a + b;
-  cout << c;
-  
-  if (a == b) {
-    cout << " a равно b";
-  }
-  else {
-    cout << "a не равно b";
-  }
+  punktmenu(a);
+  delet1(a);
+  cout << endl;
   getchar();
   getchar();
   return 0;
