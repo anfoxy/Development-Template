@@ -5,7 +5,6 @@ int main() {
   string g = "menuu.txt";
   vector <string> n1 = { "One", "Two", "Three" };
   Menu a(n1, k, 0, 0, 300);
-  Menu b(g);
   cout << a;
   punktmenu(a);
   delet1(a);

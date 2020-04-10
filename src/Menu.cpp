@@ -51,7 +51,7 @@ int punktmenu(const Menu &d) {
 
   while (chosen_option != 2)
   {
-    system("cls"); // не лучшее решение, но сойдет
+    system("cls");
     for (size_t i = 0; i < d.kol; ++i)
     {
       if ((i + 1) == counter) {
