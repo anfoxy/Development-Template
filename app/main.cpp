@@ -6,9 +6,6 @@ int main() {
   vector <string> n1 = { "One", "Two", "Three" };
   Menu a(n1, k, 0, 0, 300);
   cout << a;
-  punktmenu(a);
-  delet1(a);
-  cout << endl;
   getchar();
   getchar();
   return 0;

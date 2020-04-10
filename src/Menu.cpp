@@ -26,17 +26,6 @@ Menu::Menu(string n) {
     str.close();
   }
 }
-
-ostream& operator<<(ostream& stream, const Menu &d) {
-  for (int i = 0; i < d.kol; i++) {
-    stream << d.nazvan[i];
-    stream << endl;
-  }
-  HWND hwnd = GetConsoleWindow();
-  RECT rect = { d.Cor.xCor,d.Cor.yCor,d.Cor.size, d.Cor.size };
-  MoveWindow(hwnd, rect.top, rect.left, rect.bottom - rect.top, rect.right - rect.left, TRUE);
-  return stream;
-}
 void doSomething(const Menu &d, int n) {
   cout << "вы выбрали ";
   cout << d.nazvan[n - 1] << endl;
@@ -77,4 +66,16 @@ int punktmenu(const Menu &d) {
       _getch();
     }
   }
+}
+ostream& operator<<(ostream& stream, const Menu &d) {
+  for (int i = 0; i < d.kol; i++) {
+    stream << d.nazvan[i];
+    stream << endl;
+  }
+  HWND hwnd = GetConsoleWindow();
+  RECT rect = { d.Cor.xCor,d.Cor.yCor,d.Cor.size, d.Cor.size };
+  MoveWindow(hwnd, rect.top, rect.left, rect.bottom - rect.top, rect.right - rect.left, TRUE);
+  punktmenu(d);
+  delet1(d);
+  return stream;
 }
