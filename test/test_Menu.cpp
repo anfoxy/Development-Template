@@ -1,14 +1,24 @@
 #include <gtest/gtest.h>
 #include "menu.h"
 
-TEST(Addition, CanAddTwoPositiveNumbers) {
-  EXPECT_EQ(add(5, 5), 10);
+TEST(MenuConstructors, CanCreateMenuWithInitConstractor) {
+  vector <string> str = {"One", "Two", "Three"};
+  ASSERT_NO_THROW(Menu new_menu(str, 3, 0, 0, 100));
 }
 
-TEST(Addition, CanAddTwoNumbersDifferentSign) {
-  EXPECT_EQ(add(-5, 5), 0);
+TEST(MenuConstructors1, CantCreateMenuWithInitConstractorIfCoordinatesIsNegative) {
+  vector <string> str = { "One", "Two", "Three" };
+  ASSERT_ANY_THROW(Menu new_menu(str, 3, -10, 0, 80));
 }
-
-TEST(Addition, CanAddTwoNegativeNumbers) {
-  EXPECT_EQ(add(-5, -5), -10);
+TEST(MenuConstructors2, CantCreateMenuWithInitConstractorIfNumbeêOfMenuItemsIsNegative) {
+  vector <string> str = { "One", "Two", "Three" };
+  ASSERT_ANY_THROW(Menu new_menu(str, -3, 10, 0, 80));
+}
+TEST(MenuConstructors3, CantCreateMenuWithInitConstractorIfMenuLengthNegative) {
+  vector <string> str = { "One", "Two", "Three" };
+  ASSERT_ANY_THROW(Menu new_menu(str, 3, 10, 0, -80));
+}
+TEST(MenuConstructors4, CantCreateMenuWithInitConstractorIfNumbeêOfMenuItemsIsNegative) {
+  vector <string> str = { "One", "Two", "Three" };
+  ASSERT_ANY_THROW(Menu new_menu(str, 4, 10, 0, 80));
 }

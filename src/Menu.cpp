@@ -1,6 +1,15 @@
 #include "Menu.h"
 ostream& operator<<(ostream& stream, const Menu &d);
 Menu::Menu(vector <string> naz, int k, int x, int y, int d) {
+  
+  if (x < 0 || y < 0) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (d < 80) throw std::logic_error("Input error: menu length cannot be less 1!"); // тут вообще вряд ли 1, потому что какое-то минимальное возможное для работы меню значение должно быть, чтобы там хоть что-то было, над этим нужно подумать тебе
+  if (k < 0 || k > naz.size()) throw std::logic_error("Input error: count of menu positions cannot be a negative value!");
+  kol = k;
+  for (int i = 0; i < kol; i++) nazvan.insert(nazvan.end(), naz.at(i));
+  Cor.xCor = x;
+  Cor.yCor = y;
+  Cor.size = d;
   kol = k;
   for (int i = 0; i < kol; i++) nazvan.insert(nazvan.end(), naz.at(i));
   Cor.xCor = x;
@@ -21,8 +30,10 @@ Menu::Menu(string n) {
     for (int i = 0; i < kol; i++) {
       nazvan.push_back("");
       str >> nazvan.at(i);
-      cout << "\n";
     }
+    if (Cor.xCor < 0 || Cor.yCor < 0) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+    if (Cor.size < 80) throw std::logic_error("Input error: menu length cannot be less 80!"); // тут вообще вряд ли 1, потому что какое-то минимальное возможное для работы меню значение должно быть, чтобы там хоть что-то было, над этим нужно подумать тебе
+    if (kol < 0 || kol >nazvan.size()) throw std::logic_error("Input error: count of menu positions cannot be a negative value!");
     str.close();
   }
 }
