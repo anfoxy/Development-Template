@@ -2,19 +2,16 @@
 ostream& operator<<(ostream& stream, const Menu &d);
 Menu::Menu(vector <string> naz, int k, int x, int y, int d) {
   
+ 
+  kol = k;
+  if (kol < 0 || kol >naz.size()) throw std::logic_error("Input error: count of menu positions cannot be a negative value!");
+  for (int i = 0; i < kol; i++) nazvan.insert(nazvan.end(), naz.at(i));
   if (x < 0 || y < 0) throw std::logic_error("Input error: coordinates cannot be a negative value!");
-  if (d < 80) throw std::logic_error("Input error: menu length cannot be less 1!"); // тут вообще вряд ли 1, потому что какое-то минимальное возможное для работы меню значение должно быть, чтобы там хоть что-то было, над этим нужно подумать тебе
-  if (k < 0 || k > naz.size()) throw std::logic_error("Input error: count of menu positions cannot be a negative value!");
-  kol = k;
-  for (int i = 0; i < kol; i++) nazvan.insert(nazvan.end(), naz.at(i));
   Cor.xCor = x;
   Cor.yCor = y;
+  if (d < 80) throw std::logic_error("Input error: menu length cannot be less 80!");
   Cor.size = d;
-  kol = k;
-  for (int i = 0; i < kol; i++) nazvan.insert(nazvan.end(), naz.at(i));
-  Cor.xCor = x;
-  Cor.yCor = y;
-  Cor.size = d;
+  
 }
 Menu::Menu(string n) {
   ifstream str(n);
@@ -22,24 +19,66 @@ Menu::Menu(string n) {
     cout << "Файл не может быть открыт!\n"; // сообщить об этом
   else
   {
+
     str >> Cor.xCor;
     str >> Cor.yCor;
+    if (Cor.xCor < 0 || Cor.yCor < 0) throw std::logic_error("Input error: coordinates cannot be a negative value!");
     str >> Cor.size;
     cout << "\n";
+    if (Cor.size < 80) throw std::logic_error("Input error: menu length cannot be less 80!");
     str >> kol;
+    if (kol < 0) throw std::logic_error("Input error: count of menu positions cannot be a negative value!");
     for (int i = 0; i < kol; i++) {
       nazvan.push_back("");
       str >> nazvan.at(i);
     }
-    if (Cor.xCor < 0 || Cor.yCor < 0) throw std::logic_error("Input error: coordinates cannot be a negative value!");
-    if (Cor.size < 80) throw std::logic_error("Input error: menu length cannot be less 80!"); // тут вообще вряд ли 1, потому что какое-то минимальное возможное для работы меню значение должно быть, чтобы там хоть что-то было, над этим нужно подумать тебе
-    if (kol < 0 || kol >nazvan.size()) throw std::logic_error("Input error: count of menu positions cannot be a negative value!");
     str.close();
   }
 }
+ostream& operator<<(ostream& stream, const Menu &d) {
+  for (int i = 0; i < d.kol; i++) {
+    stream << d.nazvan[i];
+    stream << endl;
+  }
+  HWND hwnd = GetConsoleWindow();
+  RECT rect = { d.Cor.xCor,d.Cor.yCor,d.Cor.size, d.Cor.size };
+  MoveWindow(hwnd, rect.top, rect.left, rect.bottom - rect.top, rect.right - rect.left, TRUE);
+  punktmenu(d);
+  delet1(d);
+  return stream;
+}
+void razm(const Menu &c) {
+  vector <string> n1 = { "to change the window size" ,"minimize window" ,"exit" };
+  cout << "введите х  ";
+  int x;
+  cin >> x;
+  cout << "введите y  ";
+  int y;
+  cin >> y;
+  cout << "введите d  ";
+  int d;
+  cin >> d;
+  Menu b(n1, 3, x, y, d);
+  cout << b;
+}
+
 void doSomething(const Menu &d, int n) {
+  Sleep(1000);
   cout << "вы выбрали ";
+  HWND hwnd = GetConsoleWindow();
   cout << d.nazvan[n - 1] << endl;
+  switch (n) {
+  case 1:
+    razm(d);
+    break;
+  case 2:
+    ShowWindow(hwnd,SW_MINIMIZE);
+    cout << d;
+    break;
+  case 3:
+    exit(0);
+    break;
+  }
   _getch();
 }
 void delet1(const Menu &d) {
@@ -77,16 +116,4 @@ int punktmenu(const Menu &d) {
       _getch();
     }
   }
-}
-ostream& operator<<(ostream& stream, const Menu &d) {
-  for (int i = 0; i < d.kol; i++) {
-    stream << d.nazvan[i];
-    stream << endl;
-  }
-  HWND hwnd = GetConsoleWindow();
-  RECT rect = { d.Cor.xCor,d.Cor.yCor,d.Cor.size, d.Cor.size };
-  MoveWindow(hwnd, rect.top, rect.left, rect.bottom - rect.top, rect.right - rect.left, TRUE);
-  punktmenu(d);
-  delet1(d);
-  return stream;
 }

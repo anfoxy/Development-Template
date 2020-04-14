@@ -27,6 +27,7 @@ public:
   friend ostream& operator<<(ostream& stream, const Menu &d);//
   Menu(vector <string> naz, int k, int x, int y, int d);
   Menu(string n);
+  void razm(const Menu &c);
 };
 
 #endif  // INCLUDE_Menu_H_

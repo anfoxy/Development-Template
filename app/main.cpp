@@ -2,9 +2,9 @@
 int main() {
   setlocale(LC_CTYPE, "Russian");
   string g = "menuu.txt";
-  vector <string> n1 = { "File" ,"Main" ,"View" };
+  vector <string> n1 = { "to change the window size" ,"minimize window" ,"exit" };
   const int k = n1.size();
-  Menu a(n1, k, 1, 1, 300);
+  Menu a(n1, k, 1, 1, 700);
   cout << a;
   getchar();
   getchar();
