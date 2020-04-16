@@ -40,15 +40,19 @@ ostream& operator<<(ostream& stream, const Menu &d) {
     stream << d.nazvan[i];
     stream << endl;
   }
-  HWND hwnd = GetConsoleWindow();
-  RECT rect = { d.Cor.xCor,d.Cor.yCor,d.Cor.size, d.Cor.size };
-  MoveWindow(hwnd, rect.top, rect.left, rect.bottom - rect.top, rect.right - rect.left, TRUE);
-  punktmenu(d);
-  delet1(d);
+  stream << d.Cor.xCor;
+  stream << endl;
+  stream << d.Cor.yCor;
+  stream << endl;
+  stream << d.Cor.size;
   return stream;
 }
 void razm(const Menu &c) {
-  vector <string> n1 = { "to change the window size" ,"minimize window" ,"exit" };
+  vector <string> n1;
+  for (int i = 0; i < c.kol; i++) {
+   n1.push_back(" ");
+   n1.at(i) = c.nazvan[i];
+  }
   cout << "введите х  ";
   int x;
   cin >> x;
@@ -59,11 +63,13 @@ void razm(const Menu &c) {
   int d;
   cin >> d;
   Menu b(n1, 3, x, y, d);
-  cout << b;
+  punktmenu(b);
 }
 
 void doSomething(const Menu &d, int n) {
-  Sleep(1000);
+  cout << "Загрузка...";
+  Sleep(3000);
+  system("cls");
   cout << "вы выбрали ";
   HWND hwnd = GetConsoleWindow();
   cout << d.nazvan[n - 1] << endl;
@@ -73,24 +79,31 @@ void doSomething(const Menu &d, int n) {
     break;
   case 2:
     ShowWindow(hwnd,SW_MINIMIZE);
-    cout << d;
+    punktmenu(d);
     break;
   case 3:
     exit(0);
     break;
+  default:
+    Sleep(3000);
+    exit(0);
   }
   _getch();
 }
-void delet1(const Menu &d) {
-  system("cls");
-}
+
 int punktmenu(const Menu &d) {
+  cout << "Создание меню...";
+  Sleep(3000);
+  HWND hwnd = GetConsoleWindow();
+  RECT rect = { d.Cor.xCor,d.Cor.yCor,d.Cor.size, d.Cor.size };
+  MoveWindow(hwnd, rect.top, rect.left, rect.bottom - rect.top, rect.right - rect.left, TRUE);
+  
   int counter = 1, chosen_option = counter;
   int nom = 0;
-
   while (chosen_option != 2)
   {
     system("cls");
+    cout << "Выберете пункт с помощью кнопок 'w' и 's' " << endl;
     for (size_t i = 0; i < d.kol; ++i)
     {
       if ((i + 1) == counter) {

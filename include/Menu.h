@@ -19,15 +19,17 @@ class Menu {
 private:
   int kol;
   vector <string> nazvan;
+  int xCor;
+  int yCor;
+  int size;
   coor Cor;
 public:
   friend void doSomething(const Menu &d, int n);
-  friend void delet1(const Menu &d);
   friend int punktmenu(const Menu &d);
+  friend void razm(const Menu &c);
   friend ostream& operator<<(ostream& stream, const Menu &d);//
   Menu(vector <string> naz, int k, int x, int y, int d);
   Menu(string n);
-  void razm(const Menu &c);
 };
 
 #endif  // INCLUDE_Menu_H_
