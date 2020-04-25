@@ -51,8 +51,8 @@ public:
     persDataYear = year;
     persVes = ves;
   }
-  void SaveToFileTest();
-  void LoadFromFileTest();
+  void SaveToFileTest(string filename);
+  void LoadFromFileTest(string filename);
   void Print();
   void PrintName();
   void PrintNabl();

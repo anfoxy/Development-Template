@@ -14,13 +14,13 @@ FloorScales::FloorScales(string _name, int _day, int _mes, int _year, int _ves) 
   bufPers.SetName(sbuf);
 
     day= _day;
-    if (day < 1 || day > 31) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+    if (day < 1 || day > 31) throw std::logic_error("Input error: wrong number!");
     mes= _mes;
-    if (mes < 1 || mes > 12) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+    if (mes < 1 || mes > 12) throw std::logic_error("Input error: wrong number!");
     year= _year;
-    if (year < 1900 || year > 2020) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+    if (year < 1900 || year > 2020) throw std::logic_error("Input error: wrong number!");
     ves= _ves;
-    if (ves < 1 || ves > 1000) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+    if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
   bufNabl.SetNabl(day, mes, year, ves);
   date.push_back(bufNabl);
   bufPers.SetNABL(date);
@@ -48,23 +48,23 @@ void AddFloorScales() {
   while (day < 1 || day > 31) {
     cin >> day;
   }
-  if (day < 1 || day > 31) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (day < 1 || day > 31) throw std::logic_error("Input error:wrong number!");
   cout << "мес€ц(от 1 до 12): ";
   while (mes < 1 || mes >12) {
     cin >> mes;
   }
-  if (mes < 1 || mes > 12) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (mes < 1 || mes > 12) throw std::logic_error("Input error:wrong number!");
   cout << "год (от 1900 до 2020): ";
   while (year < 1900 || year > 2020) {
     cin >> year;
   }
   cout << endl;
-  if (year < 1900 || year > 2020) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
   cout << "вес(положительное число):";
   while (ves < 1 || ves > 1000) {
     cin >> ves;
   }
-  if (ves < 1 || ves > 1000) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (ves < 1 || ves > 1000) throw std::logic_error("Input error: wrong number!");
   bufNabl.SetNabl(day, mes, year, ves);
   date.push_back(bufNabl);
   bufPers.SetNABL(date);
@@ -113,23 +113,23 @@ void FloorScales::addnablpers() {
   while (day < 1 || day > 31) {
     cin >> day;
   }
-  if (day < 1 || day > 31) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (day < 1 || day > 31) throw std::logic_error("Input error:wrong number!");
   cout << "мес€ц(от 1 до 12): ";
   while (mes < 1 || mes >12) {
     cin >> mes;
   }
-  if (mes < 1 || mes > 12) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (mes < 1 || mes > 12) throw std::logic_error("Input error:wrong number!");
   cout << "год (положительное число): ";
   while (year < 1900 || year > 2020) {
     cin >> year;
   }
-  if (year < 1900 || year > 2020) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
   cout << endl;
   cout << "вес(положительное число):";
   while (ves < 1 || ves > 1000) {
     cin >> ves;
   }
-  if (ves < 1 || ves > 1000) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
   bufNabl.SetNabl(day, mes, year, ves);
   nabl.push_back(bufNabl);
   for (unsigned int n = 0; n < nabl.size() - 1; n++)
@@ -157,9 +157,9 @@ void FloorScales::input() {
   cout << "введите год и мес€ц" << endl;
   cout << "мес€ц ";
   cin >> keyMes;
-  if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: wrong number!");
   cout << "год ";
-  if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error:wrong number!");
   bool t = true;
 
   stry.Mes = keyMes;
@@ -306,7 +306,6 @@ void FloorScales::minv() {
       ves = nabl[n].persVes;
     }
   }
-  if (ves = 999999999) throw std::logic_error("Input error");
   cout << "minimum weight for all time: ";
   cout << ves << endl;
  
@@ -481,13 +480,13 @@ void FloorScales::vvodkeyDate() {
   cout << "введите год и мес€ц" << endl;
   cout << "день ";
   cin >> keyDay;
-  if (keyDay < 1 || keyDay > 31) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (keyDay < 1 || keyDay > 31) throw std::logic_error("Input error: wrong number!");
   cout << "мес€ц ";
   cin >> keyMes;
-  if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: wrong number!");
   cout << "год ";
   cin >> keyYear;
-  if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+  if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error: wrong number!");
   stry.Day = keyDay;
   stry.Mes = keyMes;
   stry.Year = keyYear;
@@ -684,13 +683,13 @@ bool DataToFile(string filename)
       fout >> mes;
       fout >> year;
       fout >> ves;
-      if (day < 1 || day > 31) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+      if (day < 1 || day > 31) throw std::logic_error("Input error:wrong number!");
     
-      if (mes < 1 || mes > 12) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+      if (mes < 1 || mes > 12) throw std::logic_error("Input error:wrong number!");
      
-      if (year < 1900 || year > 2020) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+      if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
      
-      if (ves < 1 || ves > 1000) throw std::logic_error("Input error: coordinates cannot be a negative value!");
+      if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
       n = fout.tellg();
       fout.seekg(n + 5, ios_base::beg);
       bufNabl.SetNabl(day, mes, year, ves);
@@ -737,14 +736,13 @@ void LoadFromFile()
   }
   vibor();
 }
-void FloorScales::LoadFromFileTest()
+void FloorScales::LoadFromFileTest(string filename)
 {
-  string filename="da.txt";
   DataToFile(filename);
 }
-void FloorScales::SaveToFileTest()
+void FloorScales::SaveToFileTest(string filename)
 {
-  string filename="i";
+ 
   DataFromFile(filename);
 }
 void file() {
