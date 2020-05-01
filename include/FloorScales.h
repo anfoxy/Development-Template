@@ -30,62 +30,109 @@ struct stry
   int Year;
 };
 
-class FloorScales {
-public:
-  FloorScales() {}
-  ~FloorScales() {}
-  FloorScales(string name, int day, int mes, int year, int ves);
-  friend ostream& operator<<(ostream& stream, const SForFile h);//
-  string GetName() { return persName; }
+
+
+
+class Nabludenie {
+public: 
+  friend class FloorScales;
+  friend class Pers;
+  void Print2();
+  Nabludenie() {}
+ ~Nabludenie() {}
+  Nabludenie(int _day, int _mes, int _year, int _ves);
   int Getday() { return persDataDay; }
   int Getmes() { return persDataMes; }
   int Getyear() { return persDataYear; }
   int GetVes() { return persVes; }
-  void SetNABL(vector <FloorScales> nabl1) {
-    nabl = nabl1;
-  }
-  void SetName(string name) { persName = name; }
+  
   void SetNabl(int day, int mes, int year, int ves) {
     persDataDay = day;
     persDataMes = mes;
     persDataYear = year;
     persVes = ves;
   }
-  void SaveToFileTest(string filename);
-  void LoadFromFileTest(string filename);
-  void Print();
-  void PrintName();
-  void PrintNabl();
-  void addnablpers();
-  void input();
-  void vvodkeyDate();
-  void Mes();
-  void Poisk();
-  int sredmes(int keyMes, int keyYear);
-  void sred_with_output(int keyMes, int keyYear);
-  void sredmes();
-  void vi(ostream & stream, int l);
-  void sredv();
-  void minmes();
-  int minmes(int keyMes, int keyYear);
-  void minmes_with_output(int keyMes, int keyYear);
-  void minv();
-  int maxmes1(int keyMes, int keyYear);
-  void max_with_output(int keyMes, int keyYear);
-  void maxmes();
-  void maxv();
- 
 private:
-
-  stry stry;
-  vector <FloorScales> nabl;
-  string persName;
   int persDataDay;
   int persDataMes;
   int persDataYear;
   int persVes;
 
-  static int cmpfield;
+};
+class FloorScales {
+public:
+  void minv1();
+  FloorScales(vector<Nabludenie> dat, string name);
+  void vi(ofstream fin);
+  friend class Pers;
+  int maxmes1(int keyMes, int keyYear);
+  void max_with_output(int keyMes, int keyYear);
+  void maxmes();
+  int maxv();
+  void maxv1();
+  void sredv1();
+  int minmes(int keyMes, int keyYear);
+  void minmes_with_output(int keyMes, int keyYear);
+  void minmes();
+  int minv();
+  int sredmes(int keyMes, int keyYear);
+  void sred_with_output(int keyMes, int keyYear);
+  void sredmes();
+  int sredv();
+  void input();
+  void Mes();
+  void vvodkeyDate();
+  void Poisk();
+  void addnablpers();
+  void PrintNabl();
+  void PrintName();
+  void SetName(string name) { persName = name; }
+  void Print();
+  FloorScales(const Nabludenie &d, string name);
+  FloorScales() {}
+  ~FloorScales() {}
+  void SetNABL(vector <Nabludenie> nabl1) {
+    nabl = nabl1;
+  }
+ 
+private:
+  stry stry;
+  vector <Nabludenie> nabl;
+  string persName;
+};
+class Pers {
+public:
+  Pers(vector<Nabludenie> dat, string name);
+  friend class FloorScales;
+  void LoadFromFileTest(string filename);
+  void SaveToFileTest(string filename);
+  void SaveToFile();
+  bool DataFromFile(string filename);
+  bool DataToFile(string filename);
+  void LoadFromFile();
+  void file();
+  void MaxVes();
+  void MinVes();
+  void SredVes();
+  void dateVes();
+  void PrintPers();
+  void vivodpers();
+  void AddNabl();
+
+  void PrintAll();
+  void AddFloorScales();
+  void vibor();
+  void SetNABL2(vector <FloorScales> nabl1) {
+    pers = nabl1;
+  }
+  void SetNABL3(vector <FloorScales> nabl1) {
+    pers = nabl1;
+  }
+  Pers() {}
+  ~Pers() {}
+  Pers(const FloorScales &d);
+private:
+  vector <FloorScales> pers;
 };
 void PrintMenu();
 void AddFloorScales();

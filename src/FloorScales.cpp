@@ -1,136 +1,105 @@
-#include "FloorScales.h"
-ostream& operator<<(ostream& stream, const SForFile h);
+ï»¿#include "FloorScales.h"
 
-
-vector <FloorScales> pers;
-vector <FloorScales> date;
-
-FloorScales::FloorScales(string _name, int _day, int _mes, int _year, int _ves) {
-  string sbuf;
-  int day, mes , year, ves ;
-  FloorScales bufPers;
-  FloorScales bufNabl;
-  sbuf= _name;
-  bufPers.SetName(sbuf);
-
-    day= _day;
-    if (day < 1 || day > 31) throw std::logic_error("Input error: wrong number!");
-    mes= _mes;
-    if (mes < 1 || mes > 12) throw std::logic_error("Input error: wrong number!");
-    year= _year;
-    if (year < 1900 || year > 2020) throw std::logic_error("Input error: wrong number!");
-    ves= _ves;
-    if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
-  bufNabl.SetNabl(day, mes, year, ves);
-  date.push_back(bufNabl);
-  bufPers.SetNABL(date);
-
-  pers.push_back(bufPers);
-  date.pop_back();
+vector<Nabludenie> date;
+vector<FloorScales> date2;
+Nabludenie::Nabludenie( int _day, int _mes, int _year, int _ves) {
+  int day, mes, year, ves;
+  day = _day;
+  if (day < 1 || day > 31) throw std::logic_error("Input error: wrong number!");
+  mes = _mes;
+  if (mes < 1 || mes > 12) throw std::logic_error("Input error: wrong number!");
+  year = _year;
+  if (year < 1900 || year > 2020) throw std::logic_error("Input error: wrong number!");
+  ves = _ves;
+  if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
+  SetNabl(day, mes, year, ves);
 }
-void AddFloorScales() {
+FloorScales::FloorScales(const Nabludenie &d, string _name) {
+  string sbuf;
+  sbuf = _name;
+  SetName(sbuf);
+  date.push_back(d);
+  SetNABL(date);
+  date.pop_back(); 
+}
+Pers::Pers(const FloorScales &d) {
+  date2.push_back(d);
+  SetNABL2(date2);
+  date2.pop_back();
+}
+FloorScales::FloorScales(vector<Nabludenie> dat,string name) {
+  for (int i = 0; i < dat.size(); i++) {
+    SetNABL(dat);
+  }
+  SetName(name);
+}
+void Pers::AddFloorScales() {
   system("cls");
   int day = -1, mes = -1, year = -1, ves = -1;
   string sbuf;
-  FloorScales bufPers;
-  FloorScales bufNabl;
   cout << endl;
 
   cout << endl;
-  cout << "Èìÿ: ";
+  cout << "Ð˜Ð¼Ñ: ";
   cin >> sbuf;
-  bufPers.SetName(sbuf);
-
   cout << endl;
-  cout << "Äàòà: ";
+  cout << "Ð”Ð°Ñ‚Ð°: ";
   cout << endl;
-  cout << "Äåíü (îò 1 äî 31): ";
+  cout << "Ð”ÐµÐ½ÑŒ (Ð¾Ñ‚ 1 Ð´Ð¾ 31): ";
   while (day < 1 || day > 31) {
     cin >> day;
   }
   if (day < 1 || day > 31) throw std::logic_error("Input error:wrong number!");
-  cout << "ìåñÿö(îò 1 äî 12): ";
+  cout << "Ð¼ÐµÑÑÑ†(Ð¾Ñ‚ 1 Ð´Ð¾ 12): ";
   while (mes < 1 || mes >12) {
     cin >> mes;
   }
   if (mes < 1 || mes > 12) throw std::logic_error("Input error:wrong number!");
-  cout << "ãîä (îò 1900 äî 2020): ";
+  cout << "Ð³Ð¾Ð´ (Ð¾Ñ‚ 1900 Ð´Ð¾ 2020): ";
   while (year < 1900 || year > 2020) {
     cin >> year;
   }
   cout << endl;
   if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
-  cout << "âåñ(ïîëîæèòåëüíîå ÷èñëî):";
+  cout << "Ð²ÐµÑ(Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ñ‡Ð¸ÑÐ»Ð¾):";
   while (ves < 1 || ves > 1000) {
     cin >> ves;
   }
   if (ves < 1 || ves > 1000) throw std::logic_error("Input error: wrong number!");
-  bufNabl.SetNabl(day, mes, year, ves);
-  date.push_back(bufNabl);
-  bufPers.SetNABL(date);
-
+  Nabludenie bufNabl(day, mes, year, ves);
+  FloorScales bufPers(bufNabl, sbuf);
   pers.push_back(bufPers);
-  date.pop_back();
   cout << "----------------------------------------------------------------" << endl;
-  vibor();
-}
-void vivodpers() {
-  cout << "âûáåðåòå ÷åëîâåêà" << endl;
-  for (unsigned int n = 0; n < pers.size(); n++)
-  {
-    std::cout << "-------------------------------------------------" << std::endl;
-    cout << (n + 1) << endl;
-    pers[n].PrintName();
-    std::cout << "-------------------------------------------------" << std::endl;
-  }
-
-}
-
-void AddNabl() {
-  system("cls");
-  int v = -1;
-  vivodpers();
-  while (v < 1 || v > pers.size()) {
-    cin >> v;
-  }
-  switch (v) {
-  case 1: pers[0].addnablpers(); break;
-  case 2: pers[1].addnablpers(); break;
-  case 3: pers[2].addnablpers(); break;
-  case 4: pers[3].addnablpers(); break;
-  case 5: pers[4].addnablpers(); break;
-  }
   vibor();
 }
 void FloorScales::addnablpers() {
   system("cls");
-  FloorScales bufNabl;
-  int day = -1, mes = -1, year = -1, ves = -1, n;
+  int day = -1, mes = -1, year = -1, ves = -1, np;
   cout << endl;
-  cout << "Äàòà: ";
+  cout << "Ð”Ð°Ñ‚Ð°: ";
   cout << endl;
-  cout << "Äåíü(îò 1 äî 31): ";
+  cout << "Ð”ÐµÐ½ÑŒ (Ð¾Ñ‚ 1 Ð´Ð¾ 31): ";
   while (day < 1 || day > 31) {
     cin >> day;
   }
   if (day < 1 || day > 31) throw std::logic_error("Input error:wrong number!");
-  cout << "ìåñÿö(îò 1 äî 12): ";
+  cout << "Ð¼ÐµÑÑÑ†(Ð¾Ñ‚ 1 Ð´Ð¾ 12): ";
   while (mes < 1 || mes >12) {
     cin >> mes;
   }
   if (mes < 1 || mes > 12) throw std::logic_error("Input error:wrong number!");
-  cout << "ãîä (ïîëîæèòåëüíîå ÷èñëî): ";
+  cout << "Ð³Ð¾Ð´ (Ð¾Ñ‚ 1900 Ð´Ð¾ 2020): ";
   while (year < 1900 || year > 2020) {
     cin >> year;
   }
-  if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
   cout << endl;
-  cout << "âåñ(ïîëîæèòåëüíîå ÷èñëî):";
+  if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
+  cout << "Ð²ÐµÑ(Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ñ‡Ð¸ÑÐ»Ð¾):";
   while (ves < 1 || ves > 1000) {
     cin >> ves;
   }
-  if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
-  bufNabl.SetNabl(day, mes, year, ves);
+  if (ves < 1 || ves > 1000) throw std::logic_error("Input error: wrong number!");
+  Nabludenie bufNabl(day, mes, year, ves);
   nabl.push_back(bufNabl);
   for (unsigned int n = 0; n < nabl.size() - 1; n++)
   {
@@ -139,9 +108,9 @@ void FloorScales::addnablpers() {
       nabl[n].persDataMes == nabl[nabl.size() - 1].persDataMes  &&
       nabl[n].persDataYear == nabl[nabl.size() - 1].persDataYear
       ) {
-      cout << "Òàêàÿ äàòà åñòü! íàæìèòå 1 ÷òîáû ïåðåçàïèñàòü! (èíà÷å äàííûå áóäóò íå ñîõðàíåíû)";
-      cin >> n;
-      if (n == 1) {
+      cout << "Ð¢Ð°ÐºÐ°Ñ Ð´Ð°Ñ‚Ð° ÐµÑÑ‚ÑŒ! Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ 1 Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿ÐµÑ€ÐµÐ·Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ! (Ð¸Ð½Ð°Ñ‡Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð±ÑƒÐ´ÑƒÑ‚ Ð½Ðµ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹)";
+      cin >> np;
+      if (np == 1) {
         nabl[n].persVes = nabl[nabl.size() - 1].persVes;
         nabl.pop_back();
       }
@@ -154,11 +123,11 @@ void FloorScales::addnablpers() {
 }
 void FloorScales::input() {
   int  keyMes, keyYear;
-  cout << "ââåäèòå ãîä è ìåñÿö" << endl;
-  cout << "ìåñÿö ";
+  cout << "Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð³Ð¾Ð´ Ð¸ Ð¼ÐµÑÑÑ†" << endl;
+  cout << "Ð¼ÐµÑÑÑ† ";
   cin >> keyMes;
   if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: wrong number!");
-  cout << "ãîä ";
+  cout << "Ð³Ð¾Ð´ ";
   if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error:wrong number!");
   bool t = true;
 
@@ -186,20 +155,20 @@ int FloorScales::sredmes(int keyMes, int keyYear) {
 void FloorScales::sred_with_output(int keyMes, int keyYear) {
   int resves = sredmes(keyMes, keyYear);
   if (resves == 0) {
-    cout << "Äàííîé äàòû íåò";
+    cout << "Ð”Ð°Ð½Ð½Ð¾Ð¹ Ð´Ð°Ñ‚Ñ‹ Ð½ÐµÑ‚";
   }
   else {
-    cout << "ñðåäíèé âåñ çà äàííûé ìåñÿö: ";
+    cout << "ÑÑ€ÐµÐ´Ð½Ð¸Ð¹ Ð²ÐµÑ Ð·Ð° Ð´Ð°Ð½Ð½Ñ‹Ð¹ Ð¼ÐµÑÑÑ†: ";
     cout << resves;
   }
- 
+
 }
 void FloorScales::sredmes() {
   input();
-  sred_with_output(stry.Mes,stry.Year);
+  sred_with_output(stry.Mes, stry.Year);
 }
 
-void FloorScales::sredv() {
+int FloorScales::sredv() {
   int   ves = 0, k = 0;
   double resves;
   for (unsigned int n = 0; n < nabl.size(); n++)
@@ -207,14 +176,19 @@ void FloorScales::sredv() {
     k++;
     ves = nabl[n].persVes + ves;
   }
-  cout << "ñðåäíèé âåñ çà âñå âðåìÿ: ";
   resves = ves / k;
+  return resves;
+}
+void FloorScales::sredv1() {
+  
+  cout << "ÑÑ€ÐµÐ´Ð½Ð¸Ð¹ Ð²ÐµÑ Ð·Ð° Ð²ÑÐµ Ð²Ñ€ÐµÐ¼Ñ: ";
+  int resves = sredv();
   cout << resves;
 }
-void SredVes() {
+void Pers::SredVes() {
   int v1 = -1, v2 = -1;
-  cout << "1 - íàéòè ñðåäíèé âåñ ÷åëîâåêà â âûáðàííîì ìåñÿöå " << endl;
-  cout << "2 - íàéòè ñðåäíèé âåñ ÷åëîâåêà çà âñþ èñòîðèþ " << endl;
+  cout << "1 - Ð½Ð°Ð¹Ñ‚Ð¸ ÑÑ€ÐµÐ´Ð½Ð¸Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð² Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ " << endl;
+  cout << "2 - Ð½Ð°Ð¹Ñ‚Ð¸ ÑÑ€ÐµÐ´Ð½Ð¸Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð·Ð° Ð²ÑÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ " << endl;
   while (v1 < 1 || v1 >2) {
     cin >> v1;
   }
@@ -249,19 +223,19 @@ void SredVes() {
     }
     switch (v2) {
     case 1:
-      pers[0].sredv();
+      pers[0].sredv1();
       break;
     case 2:
-      pers[1].sredv();
+      pers[1].sredv1();
       break;
     case 3:
-      pers[2].sredv();
+      pers[2].sredv1();
       break;
     case 4:
-      pers[3].sredv();
+      pers[3].sredv1();
       break;
     case 5:
-      pers[4].sredv();
+      pers[4].sredv1();
       break;
     }
     break;
@@ -287,18 +261,19 @@ int FloorScales::minmes(int keyMes, int keyYear) {
 void FloorScales::minmes_with_output(int keyMes, int keyYear) {
   int ves = minmes(keyMes, keyYear);
   if (ves == 999999999) {
-    cout << "Äàííîé äàòû íåò";
+    cout << "Ð”Ð°Ð½Ð½Ð¾Ð¹ Ð´Ð°Ñ‚Ñ‹ Ð½ÐµÑ‚";
   }
   else {
-    cout << "Ìèíèìàëüíûé âåñ çà äàííûé ìåñÿö: " << ves;
+    cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ð·Ð° Ð´Ð°Ð½Ð½Ñ‹Ð¹ Ð¼ÐµÑÑÑ†: " << ves;
   }
-  
+
 }
 void FloorScales::minmes() {
   input();
   minmes_with_output(stry.Mes, stry.Year);
 }
-void FloorScales::minv() {
+
+int FloorScales::minv() {
   int  ves = 999999999;
   for (unsigned int n = 0; n < nabl.size(); n++)
   {
@@ -306,14 +281,18 @@ void FloorScales::minv() {
       ves = nabl[n].persVes;
     }
   }
+  return ves;
+}
+void FloorScales::minv1() {
+  int ves = minv();
   cout << "minimum weight for all time: ";
   cout << ves << endl;
- 
+
 }
-void MinVes() {
+void Pers::MinVes() {
   int v1 = -1, v2 = -1;
-  cout << "1 - íàéòè ìèíèìàëüíûé âåñ ÷åëîâåêà â âûáðàííîì ìåñÿöå " << endl;
-  cout << "2 - íàéòè ìèíèìàëüíûé âåñ ÷åëîâåêà çà âñþ èñòîðèþ " << endl;
+  cout << "1 - Ð½Ð°Ð¹Ñ‚Ð¸ Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð² Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ " << endl;
+  cout << "2 - Ð½Ð°Ð¹Ñ‚Ð¸ Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð·Ð° Ð²ÑÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ " << endl;
   while (v1 < 1 || v1 >2) {
     cin >> v1;
   }
@@ -348,19 +327,19 @@ void MinVes() {
     }
     switch (v2) {
     case 1:
-      pers[0].minv();
+      pers[0].minv1();
       break;
     case 2:
-      pers[1].minv();
+      pers[1].minv1();
       break;
     case 3:
-      pers[2].minv();
+      pers[2].minv1();
       break;
     case 4:
-      pers[3].minv();
+      pers[3].minv1();
       break;
     case 5:
-      pers[4].minv();
+      pers[4].minv1();
       break;
     }
     break;
@@ -389,10 +368,10 @@ int FloorScales::maxmes1(int keyMes, int keyYear) {
 void FloorScales::max_with_output(int keyMes, int keyYear) {
   int ves = maxmes1(keyMes, keyYear);
   if (ves == -1) {
-    cout << "Äàííîé äàòû íåò";
+    cout << "Ð”Ð°Ð½Ð½Ð¾Ð¹ Ð´Ð°Ñ‚Ñ‹ Ð½ÐµÑ‚";
   }
   else {
-    cout << "ìàêñèìàëüíûé âåñ çà äàííûé ìåñÿö: ";
+    cout << "Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ð·Ð° Ð´Ð°Ð½Ð½Ñ‹Ð¹ Ð¼ÐµÑÑÑ†: ";
     cout << ves;
   }
 
@@ -402,7 +381,7 @@ void FloorScales::maxmes() {
   max_with_output(stry.Mes, stry.Year);
 }
 
-void FloorScales::maxv() {
+int FloorScales::maxv() {
   int  ves = -1;
   for (unsigned int n = 0; n < nabl.size(); n++)
   {
@@ -410,15 +389,19 @@ void FloorScales::maxv() {
       ves = nabl[n].persVes;
     }
   }
-  cout << "ìàêñèìàëüíûé âåñ çà âñå âðåìÿ: ";
+  return ves;
+}
+void FloorScales::maxv1() {
+  int ves = maxv();
+  cout << "Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ð·Ð° Ð²ÑÐµ Ð²Ñ€ÐµÐ¼Ñ: ";
   cout << ves;
 
 
 }
-void MaxVes() {
+void Pers::MaxVes() {
   int v1 = -1, v2 = -1;
-  cout << "1 - íàéòè ìàêñèìàëüíûé âåñ ÷åëîâåêà â âûáðàííîì ìåñÿöå " << endl;
-  cout << "2 - íàéòè ìàêñèìàëüíûé âåñ ÷åëîâåêà çà âñþ èñòîðèþ " << endl;
+  cout << "1 - Ð½Ð°Ð¹Ñ‚Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð² Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ " << endl;
+  cout << "2 - Ð½Ð°Ð¹Ñ‚Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð·Ð° Ð²ÑÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ " << endl;
   while (v1 < 1 || v1 >2) {
     cin >> v1;
   }
@@ -453,68 +436,105 @@ void MaxVes() {
     }
     switch (v2) {
     case 1:
-      pers[0].maxv();
+      pers[0].maxv1();
       break;
     case 2:
-      pers[1].maxv();
+      pers[1].maxv1();
       break;
     case 3:
-      pers[2].maxv();
+      pers[2].maxv1();
       break;
     case 4:
-      pers[3].maxv();
+      pers[3].maxv1();
       break;
     case 5:
-      pers[4].maxv();
+      pers[4].maxv1();
       break;
     }
     break;
   }
   vibor();
 }
-
-void FloorScales::vvodkeyDate() {
-  
-  cout << endl << "Ââåäèòå íóæíóþ äàòó" << endl;
-  int  keyMes, keyYear, keyDay;
-  cout << "ââåäèòå ãîä è ìåñÿö" << endl;
-  cout << "äåíü ";
-  cin >> keyDay;
-  if (keyDay < 1 || keyDay > 31) throw std::logic_error("Input error: wrong number!");
-  cout << "ìåñÿö ";
-  cin >> keyMes;
-  if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: wrong number!");
-  cout << "ãîä ";
-  cin >> keyYear;
-  if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error: wrong number!");
-  stry.Day = keyDay;
-  stry.Mes = keyMes;
-  stry.Year = keyYear;
+void Nabludenie::Print2() {
+  cout << "Ð”ÐµÐ½ÑŒ" << endl;
+  cout << persDataDay << endl;
+  cout << "ÐœÐµÑÑÑ†" << endl;
+  cout <<persDataMes << endl;
+  cout << "Ð“Ð¾Ð´" << endl;
+  cout << persDataYear << endl;
+  cout << "ÐÐ°Ñ‡Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ" << endl;
+  cout << persVes << endl;
 }
-void FloorScales::Poisk() {
- 
-  vvodkeyDate();
-  bool t = true;
+void FloorScales::Print()
+{
+
+  cout << "Ð˜Ð¼Ñ" << endl;
+  cout << persName.c_str() << endl;
+  nabl[0].Print2();
+}
+
+
+void Pers::PrintAll()
+{
+  system("cls");
+
+  cout << "                   Ð§Ð»ÐµÐ½Ñ‹ ÑÐµÐ¼ÑŒÐ¸ Ð¸ Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ð½Ð¸Ñ " << endl;
+
+  for (unsigned int n = 0; n < pers.size(); n++)
+  {
+    cout << "-------------------------------------------------" << endl;
+    cout << (n + 1) << ")" << endl;
+    pers[n].Print();
+    cout << "-------------------------------------------------" << endl;
+  }
+
+  cout << "-------------------------------------------------\n";
+  vibor();
+}
+void FloorScales::PrintName()
+{
+  cout << persName.c_str() << endl;
+}
+
+void FloorScales::PrintNabl()
+{
+  system("cls");
   for (unsigned int n = 0; n < nabl.size(); n++)
   {
-    if (
-      nabl[n].persDataDay == stry.Day &&
-      nabl[n].persDataMes == stry.Mes &&
-      nabl[n].persDataYear == stry.Year
-      ) {
-      cout << "Âåñ : ";
-      cout << nabl[n].persVes;
-      t = false;
-    }
+    std::cout << "-------------------------------------------------" << std::endl;
+    cout << (n + 1) << ")" << endl;
+    cout << "Ð”ÐµÐ½ÑŒ" << endl;
+    cout << nabl[n].persDataDay << endl;
+    cout << "ÐœÐµÑÑÑ†" << endl;
+    cout << nabl[n].persDataMes << endl;
+    cout << "Ð“Ð¾Ð´" << endl;
+    cout << nabl[n].persDataYear << endl;
+    cout << "Ð²ÐµÑ" << endl;
+    cout << nabl[n].persVes << endl;
+    std::cout << "-------------------------------------------------" << std::endl;
   }
-  if (t == true) {
-    cout << "Äàííîé äàòû íåò";
+
+}
+void Pers::PrintPers() {
+
+  int v = -1;
+  vivodpers();
+  while (v < 1 || v > pers.size()) {
+    cin >> v;
+  }
+  switch (v) {
+  case 1: pers[0].PrintNabl();
+    break;
+  case 2: pers[1].PrintNabl(); break;
+  case 3: pers[2].PrintNabl(); break;
+  case 4: pers[3].PrintNabl(); break;
+  case 5: pers[4].PrintNabl(); break;
   }
   vibor();
 }
 void FloorScales::Mes() {
   std::cout << "-------------------------------------------------" << std::endl;
-  cout << " Äàòû íàáëþäåíèÿ " << endl;
+  cout << " Ð”Ð°Ñ‚Ñ‹ Ð½Ð°Ð±Ð»ÑŽÐ´ÐµÐ½Ð¸Ñ " << endl;
   std::cout << "-------------------------------------------------" << std::endl;
   for (unsigned int n = 0; n < nabl.size(); n++)
   {
@@ -525,7 +545,46 @@ void FloorScales::Mes() {
     std::cout << "-------------------------------------------------" << std::endl;
   }
 }
-void dateVes() {
+
+void FloorScales::Poisk() {
+
+  vvodkeyDate();
+  bool t = true;
+  for (unsigned int n = 0; n < nabl.size(); n++)
+  {
+    if (
+      nabl[n].persDataDay == stry.Day &&
+      nabl[n].persDataMes == stry.Mes &&
+      nabl[n].persDataYear == stry.Year
+      ) {
+      cout << "Ð’ÐµÑ : ";
+      cout << nabl[n].persVes;
+      t = false;
+    }
+  }
+  if (t == true) {
+    cout << "Ð”Ð°Ð½Ð½Ð¾Ð¹ Ð´Ð°Ñ‚Ñ‹ Ð½ÐµÑ‚";
+  }
+}
+void FloorScales::vvodkeyDate() {
+
+  cout << endl << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½ÑƒÐ¶Ð½ÑƒÑŽ Ð´Ð°Ñ‚Ñƒ" << endl;
+  int  keyMes, keyYear, keyDay;
+  cout << "Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð³Ð¾Ð´ Ð¸ Ð¼ÐµÑÑÑ†" << endl;
+  cout << "Ð´ÐµÐ½ÑŒ ";
+  cin >> keyDay;
+  if (keyDay < 1 || keyDay > 31) throw std::logic_error("Input error: wrong number!");
+  cout << "Ð¼ÐµÑÑÑ† ";
+  cin >> keyMes;
+  if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: wrong number!");
+  cout << "Ð³Ð¾Ð´ ";
+  cin >> keyYear;
+  if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error: wrong number!");
+  stry.Day = keyDay;
+  stry.Mes = keyMes;
+  stry.Year = keyYear;
+}
+void Pers::dateVes() {
   system("cls");
   int v = -1;
   vivodpers();
@@ -554,109 +613,54 @@ void dateVes() {
     pers[4].Poisk();
     break;
   }
+  vibor();
 }
-void FloorScales::Print()
-{
-
-  cout << "Èìÿ" << endl;
-  cout << persName.c_str() << endl;
-  cout << "Äåíü" << endl;
-  cout << nabl[0].persDataDay << endl;
-  cout << "Ìåñÿö" << endl;
-  cout << nabl[0].persDataMes << endl;
-  cout << "Ãîä" << endl;
-  cout << nabl[0].persDataYear << endl;
-  cout << "Íà÷àëüíûé âåñ" << endl;
-  cout << nabl[0].persVes << endl;
-}
-
-void FloorScales::PrintNabl()
-{
-  system("cls");
-  for (unsigned int n = 0; n < nabl.size(); n++)
+void Pers::vivodpers() {
+  cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ°" << endl;
+  for (unsigned int n = 0; n < pers.size(); n++)
   {
     std::cout << "-------------------------------------------------" << std::endl;
-    cout << (n + 1) << ")" << endl;
-    cout << "Äåíü" << endl;
-    cout << nabl[n].persDataDay << endl;
-    cout << "Ìåñÿö" << endl;
-    cout << nabl[n].persDataMes << endl;
-    cout << "Ãîä" << endl;
-    cout << nabl[n].persDataYear << endl;
-    cout << "âåñ" << endl;
-    cout << nabl[n].persVes << endl;
+    cout << (n + 1) << endl;
+    pers[n].PrintName();
     std::cout << "-------------------------------------------------" << std::endl;
   }
 
 }
-void FloorScales::PrintName()
-{
-  cout << "Èìÿ" << endl;
-  cout << persName.c_str() << endl;
-}
-void PrintPers() {
-
+void Pers::AddNabl() {
+  system("cls");
   int v = -1;
   vivodpers();
   while (v < 1 || v > pers.size()) {
     cin >> v;
   }
   switch (v) {
-  case 1: pers[0].PrintNabl();
-    break;
-  case 2: pers[1].PrintNabl(); break;
-  case 3: pers[2].PrintNabl(); break;
-  case 4: pers[3].PrintNabl(); break;
-  case 5: pers[4].PrintNabl(); break;
+  case 1: pers[0].addnablpers(); break;
+  case 2: pers[1].addnablpers(); break;
+  case 3: pers[2].addnablpers(); break;
+  case 4: pers[3].addnablpers(); break;
+  case 5: pers[4].addnablpers(); break;
   }
   vibor();
 }
-void PrintAll()
-{
-  system("cls");
-
-  cout << "                   ×ëåíû ñåìüè è íà÷àëüíûå ïîêàçàíèÿ " << std::endl;
-
-  for (unsigned int n = 0; n < pers.size(); n++)
-  {
-    std::cout << "-------------------------------------------------" << std::endl;
-    cout << (n + 1) << ")" << endl;
-    pers[n].Print();
-    std::cout << "-------------------------------------------------" << std::endl;
-  }
-
-  cout << "-------------------------------------------------\n";
-  vibor();
-}
-
-void FloorScales::vi(ostream& stream, int l) {
-  stream << persName << " ";
-  stream << endl;
-  for (int i = 0; i < nabl.size(); i++) {
-    stream << pers[l].nabl[i].persDataDay << " ";
-    stream << pers[l].nabl[i].persDataMes << " ";
-    stream << pers[l].nabl[i].persDataYear << " ";
-    stream << pers[l].nabl[i].persVes << " ";
-    stream << endl;
-  }
-}
-ostream& operator<<(ostream& stream, const SForFile h) {
-  for (int i = 0; i < pers.size(); i++) {
-    stream << i + 1 << ")";
-    pers[i].vi(stream, i);
-  }
-  return stream;
-}
 
 
-bool DataFromFile(string filename)
+bool Pers::DataFromFile(string filename)
 {
   SForFile sf;
   ofstream fin(filename.c_str(), ios_base::out | ios_base::binary);
 
   if (fin.is_open())
   {
-    fin << sf;
+    for (int i = 0; i < pers.size(); i++) {
+      fin << pers[i].persName << endl;
+      for (int j = 0; j < pers[i].nabl.size(); j++) {
+        fin << pers[i].nabl[j].persDataDay << " ";
+        fin << pers[i].nabl[j].persDataMes << " ";
+        fin << pers[i].nabl[j].persDataYear << " ";
+        fin << pers[i].nabl[j].persVes << " ";
+        fin << endl;
+      }
+    }
 
     fin.close();
     return true;
@@ -664,7 +668,7 @@ bool DataFromFile(string filename)
   return false;
 }
 
-bool DataToFile(string filename)
+bool Pers::DataToFile(string filename)
 {
   int day = -1, mes = -1, year = -1, ves = -1;
   string sbuf;
@@ -683,71 +687,63 @@ bool DataToFile(string filename)
       fout >> mes;
       fout >> year;
       fout >> ves;
-      if (day < 1 || day > 31) throw std::logic_error("Input error:wrong number!");
-    
-      if (mes < 1 || mes > 12) throw std::logic_error("Input error:wrong number!");
      
-      if (year < 1900 || year > 2020) throw std::logic_error("Input error:wrong number!");
-     
-      if (ves < 1 || ves > 1000) throw std::logic_error("Input error:wrong number!");
       n = fout.tellg();
       fout.seekg(n + 5, ios_base::beg);
-      bufNabl.SetNabl(day, mes, year, ves);
-      date.push_back(bufNabl);
-      bufPers.SetNABL(date);
+      Nabludenie bufNabl(day, mes, year, ves);
+      FloorScales bufPers(bufNabl, sbuf);
       pers.push_back(bufPers);
-      date.pop_back();
       i++;
     }
     return true;
   }
   return false;
 }
-void SaveToFile()
+void Pers::SaveToFile()
 {
   string filename;
 
-  cout << "Ââåäèòå èìÿ ôàéëà:";
+  cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°:";
   cin >> filename;
   if (DataFromFile(filename))
   {
     system("cls");
-    cout << "Ñîõðàíåíèå óñïåøíî çàâåðøåíî.\n";
+    cout << "Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¾.\n";
   }
   else
   {
     system("cls");
-    cout << "Îøèáêà ñîõðàíåíèÿ â ôàéë.\n";
+    cout << "ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð² Ñ„Ð°Ð¹Ð».\n";
   }
 }
-void LoadFromFile()
+void Pers::LoadFromFile()
 {
   string filename;
-  cout << "Ââåäèòå èìÿ ôàéëà:";
+  cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°:";
   cin >> filename;
   if (DataToFile(filename)) {
     system("cls");
-    cout << "Äàííûå ïðî÷èòàíû.\n";
+    cout << "Ð”Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ð½Ñ‹.\n";
   }
   else
   {
     system("cls");
-    cout << "Îøèáêà ÷òåíèÿ èç ôàéëà.\n";
+    cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ñ‡Ñ‚ÐµÐ½Ð¸Ñ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°.\n";
   }
   vibor();
 }
-void FloorScales::LoadFromFileTest(string filename)
+void Pers::LoadFromFileTest(string filename)
 {
   DataToFile(filename);
 }
-void FloorScales::SaveToFileTest(string filename)
+void Pers::SaveToFileTest(string filename)
 {
- 
+
   DataFromFile(filename);
 }
-void file() {
-  cout << "1- ñîõðàíèòü â ôàéë " << endl;
-  cout << "2 - âûâåñòè èç ôàéëà íà÷àëüíûå äàííûå " << endl;
+void Pers::file() {
+  cout << "1- ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð² Ñ„Ð°Ð¹Ð» " << endl;
+  cout << "2 - Ð²Ñ‹Ð²ÐµÑÑ‚Ð¸ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð° Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ " << endl;
   int v = -1;
   while (v < 1 || v>2) {
     cin >> v;
@@ -762,7 +758,7 @@ void file() {
     break;
   }
 }
-void vibor() {
+void Pers::vibor() {
   PrintMenu();
   int v = -1;
   while (v < 1 || v>10 || ((pers.size() < 1) && (v > 1 && v < 9))) {
@@ -774,7 +770,7 @@ void vibor() {
       AddFloorScales();
     }
     else {
-      cout << "Ìàêñèìàëüíîå êîëè÷åñòâî ÷åëîâåê = 5 " << endl;
+      cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐº = 5 " << endl;
       vibor();
     }
     break;
@@ -793,17 +789,17 @@ void vibor() {
 void PrintMenu()
 {
   cout << endl;
-  cout << "Âûáèðèòå äåéñòâèå" << endl;
-  cout << "1 - Äîáàâèòü ÷åëîâåêà" << endl;
-  cout << "2 - Âûâåñòè íà÷àëüíûå ïîêàçàíèÿ" << endl;
-  cout << "3 - äîáàâèòü íàáëþäåíèå" << endl;
-  cout << "4 - âûâåñòè âñå ïîêàçàíèÿ âûáðàííîãî ÷åëîâåêà" << endl;
-  cout << "5 - óçíàòü âåñ ïî äàòå è èìåíè" << endl;
-  cout << "6 - íàéòè ñðåäíèé âåñ ÷åëîâåêà â âûáðàííîì ìåñÿöå èëè çà âñþ èñòîðèþ" << endl;
-  cout << "7 - íàéòè ìèíèìàëüíûé âåñ ÷åëîâåêà â âûáðàííîì ìåñÿöå èëè çà âñþ èñòîðèþ" << endl;
-  cout << "8 - íàéòè ìàêñèìàëüíûé âåñ ÷åëîâåêà â âûáðàííîì ìåñÿöå èëè çà âñþ èñòîðèþ" << endl;
-  cout << "9 - ñîõðàíèòü â ôàéë èëè âûâåñòè èç ôàéëà " << endl;
-  cout << "10 - Âûõîä" << endl;
+  cout << "Ð’Ñ‹Ð±Ð¸Ñ€Ð¸Ñ‚Ðµ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ" << endl;
+  cout << "1 - Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ°" << endl;
+  cout << "2 - Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸ Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ð½Ð¸Ñ" << endl;
+  cout << "3 - Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð½Ð°Ð±Ð»ÑŽÐ´ÐµÐ½Ð¸Ðµ" << endl;
+  cout << "4 - Ð²Ñ‹Ð²ÐµÑÑ‚Ð¸ Ð²ÑÐµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ð½Ð¸Ñ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð³Ð¾ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ°" << endl;
+  cout << "5 - ÑƒÐ·Ð½Ð°Ñ‚ÑŒ Ð²ÐµÑ Ð¿Ð¾ Ð´Ð°Ñ‚Ðµ Ð¸ Ð¸Ð¼ÐµÐ½Ð¸" << endl;
+  cout << "6 - Ð½Ð°Ð¹Ñ‚Ð¸ ÑÑ€ÐµÐ´Ð½Ð¸Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð² Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ Ð¸Ð»Ð¸ Ð·Ð° Ð²ÑÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ" << endl;
+  cout << "7 - Ð½Ð°Ð¹Ñ‚Ð¸ Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð² Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ Ð¸Ð»Ð¸ Ð·Ð° Ð²ÑÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ" << endl;
+  cout << "8 - Ð½Ð°Ð¹Ñ‚Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÑ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° Ð² Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¼ Ð¼ÐµÑÑÑ†Ðµ Ð¸Ð»Ð¸ Ð·Ð° Ð²ÑÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ" << endl;
+  cout << "9 - ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð² Ñ„Ð°Ð¹Ð» Ð¸Ð»Ð¸ Ð²Ñ‹Ð²ÐµÑÑ‚Ð¸ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð° " << endl;
+  cout << "10 - Ð’Ñ‹Ñ…Ð¾Ð´" << endl;
 
 
   std::cout << "-------------------------------------------------" << std::endl;
