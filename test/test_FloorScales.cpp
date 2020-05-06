@@ -6,25 +6,28 @@ TEST(FloorScalesConstructors, checkingForCorrectness) {
   ASSERT_NO_THROW(Nabludenie a(4, 5, 2020, 45));
 }
 TEST(FloorScalesConstructors1, whenTheDayIsSetIncorrectly) {
-  ASSERT_NO_THROW(Nabludenie a(-4, 5, 2020, 45));
+  ASSERT_ANY_THROW(Nabludenie a(-4, 5, 2020, 45);
+  FloorScales s(a, "Lena1");
+  Pers s1(s);
+  );
 }
 TEST(FloorScalesConstructors2, whenTheMesIsSetIncorrectly) {
-  Nabludenie a(4, -5, 2020, 45);
+  ASSERT_ANY_THROW(Nabludenie a(4, -5, 2020, 45);
   FloorScales s(a, "Lena1");
-  ASSERT_NO_THROW(Pers s1(s));
- 
+  Pers s1(s);
+  );
 }
 TEST(FloorScalesConstructors3, whenTheYearIsSetIncorrectly) {
-  Nabludenie a(4, 5, -2020, 45);
+  ASSERT_ANY_THROW(Nabludenie a(4, 5, -2020, 45);
   FloorScales s(a, "Lena1");
-  ASSERT_NO_THROW(Pers s1(s));
- 
+  Pers s1(s);
+  );
 }
 TEST(FloorScalesConstructors4, whenTheVesIsSetIncorrectly) {
-  Nabludenie a(4, 5, 2020, -45);
+  ASSERT_ANY_THROW(Nabludenie a(4, 5, 2020, -45);
   FloorScales s(a, "Lena1");
-  ASSERT_NO_THROW(Pers s1(s));
- 
+  Pers s1(s);
+  );
 }
 TEST(FloorScalesConstructorsFileVvod, checkingForCorrectnessFileVvod) {
   Pers s;

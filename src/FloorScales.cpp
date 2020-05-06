@@ -128,6 +128,7 @@ void FloorScales::input() {
   cin >> keyMes;
   if (keyMes < 1 || keyMes > 12) throw std::logic_error("Input error: wrong number!");
   cout << "год ";
+  cin >> keyYear;
   if (keyYear < 1900 || keyYear > 2020) throw std::logic_error("Input error:wrong number!");
   bool t = true;
 
@@ -782,7 +783,7 @@ void Pers::vibor() {
   case 7:  MinVes(); break;
   case 8:  MaxVes(); break;
   case 9:  file(); break;
-  case 10:  exit; break;
+  case 10: exit(0); break;
   }
 
 }
