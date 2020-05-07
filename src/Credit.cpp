@@ -25,32 +25,47 @@ void Credit::poisk(ProcCenter & d) {
   }
 }
 void Credit::podasN(ProcCenter &c) {
+  int m;
   if (c.pers[nomer].kol == 0) {
     cout << "У вас нет кредита!" << endl;
   }
   else {
     c.pers[nomer].kol = c.pers[nomer].kol - 1;
-    c.pers[nomer].money = c.pers[nomer].money - c.pers[nomer].plata_po_kredity;
-    cout << "Выплата прошла успешно..." << endl;
-    if (c.pers[nomer].kol == 0) {
-      c.pers[nomer].kredinf = false;
-      c.pers[nomer].vzkredit = 0;
-      c.pers[nomer].plata_po_kredity = 0;
+    m = c.pers[nomer].money - c.pers[nomer].plata_po_kredity;
+    if (m < 0) {
+      cout << "Вы не можете выплатить кредит" << endl;
+      viborC(c);
+    }
+    else {
+      c.pers[nomer].money=c.pers[nomer].money - c.pers[nomer].plata_po_kredity;
+      cout << "Выплата прошла успешно..." << endl;
+      if (c.pers[nomer].kol == 0) {
+        c.pers[nomer].kredinf = false;
+        c.pers[nomer].vzkredit = 0;
+        c.pers[nomer].plata_po_kredity = 0;
+      }
     }
   }
   viborC(c);
 }
 void Credit::podasV(ProcCenter &c) {
+  int m;
   if (c.pers[nomer].kol == 0) {
     cout << "У вас нет кредита!" << endl;
   }
   else {
-    c.pers[nomer].money = (c.pers[nomer].money - (c.pers[nomer].plata_po_kredity * c.pers[nomer].kol));
-    c.pers[nomer].kol = 0;
-    c.pers[nomer].kredinf = false;
-    c.pers[nomer].vzkredit = 0;
-    c.pers[nomer].plata_po_kredity = 0;
-    cout << "Выплата прошла успешно..." << endl;
+    m = (c.pers[nomer].money - (c.pers[nomer].plata_po_kredity * c.pers[nomer].kol));
+    if (m < 0) {
+      cout << "Вы не можете выплатить кредит" << endl;
+      viborC(c);
+    }else {
+      c.pers[nomer].money = (c.pers[nomer].money - (c.pers[nomer].plata_po_kredity * c.pers[nomer].kol));
+      c.pers[nomer].kol = 0;
+      c.pers[nomer].kredinf = false;
+      c.pers[nomer].vzkredit = 0;
+      c.pers[nomer].plata_po_kredity = 0;
+      cout << "Выплата прошла успешно..." << endl;
+    }
   }
   viborC(c);
 }
