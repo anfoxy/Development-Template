@@ -36,7 +36,7 @@ TEST(Credit2_2, RasschetViplat) {
   int res1 = 506;
   EXPECT_EQ(res, res1);
 }
-TEST(Credit3, RasschetViplat) {
+TEST(Credit3, OdobrenieViplat) {
   inf s1("Nastya", "Kazhaeva", "Vladimirovna", "1234", 10000);
   ProcCenter h(s1);
   Credit n;
@@ -48,4 +48,17 @@ TEST(Credit3, RasschetViplat) {
   int odob;
   odob = n.proverka(h, res);
   EXPECT_EQ(odob, 1);
+}
+TEST(Credit4, OdobrenieViplat) {
+  inf s1("Nastya", "Kazhaeva", "Vladimirovna", "1234", 10000);
+  ProcCenter h(s1);
+  Credit n;
+  int sum = 1000000;
+  int srok = 1;
+  int proc = 16;
+  int res;
+  res = raschetC(sum, srok, proc);
+  int odob;
+  odob = n.proverka(h, res);
+  EXPECT_EQ(odob, -1);
 }
