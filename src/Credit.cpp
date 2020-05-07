@@ -2,6 +2,7 @@
 #include "ProcCenter.h"
 
 void Credit::poisk(ProcCenter & d) {
+  int v = -1;
   bool t = false;
   for (int i = 0; i < d.pers.size(); i++) {
     if ((d.pers[i].parol == dann.porol) && (d.pers[i].schet == dann.schet)) { 
@@ -55,11 +56,20 @@ void Credit::podasV(ProcCenter &c) {
 }
 
 void Credit::Vhod(ProcCenter &c) {
-  cout << "Пароль: ";
-  cin >> dann.porol;
-  cout << "Ваш номер счета: ";
-  cin >> dann.schet;
-  poisk(c);
+  int v = -1;
+  cout << "Нажмите 1 если хотите войти в систему" << endl;
+  cout << "Нажмите 2 если хотите зарегистрироваться" << endl;
+  while (v < 1 || v > 2) {
+    cin >> v;
+  }
+  switch (v) {
+  case 1:  cout << "Пароль: ";
+    cin >> dann.porol;
+    cout << "Ваш номер счета: ";
+    cin >> dann.schet;
+    poisk(c);                                         break;
+  case 2:  c.AddPers(); nomer = c.pers.size() - 1;    break;
+  }
   viborC(c);
 }
 void Credit::VZCredit(ProcCenter &c) {
@@ -121,7 +131,7 @@ void Credit::polkredit(ProcCenter &c) {
     cin >> summ;
     if (summ < 1 || summ > 3000000) throw std::logic_error("Input error: wrong number!");
     cout << endl;
-    cout << "Выбирите срок" << endl;
+    cout << "Выбeрите срок" << endl;
     cout << "1 - 1 год" << endl;
     cout << "2 - 2 года " << endl;
     cout << "3 - 3 года" << endl;
@@ -341,7 +351,7 @@ void Credit::infCredit(ProcCenter &c) {
     int odob = -1;
     int _kredit;
     cout << endl;
-    cout << "Выбирите срок" << endl;
+    cout << "Выбeрите срок" << endl;
     cout << "1 - 1 год" << endl;
     cout << "2 - 2 года " << endl;
     cout << "3 - 3 года" << endl;
