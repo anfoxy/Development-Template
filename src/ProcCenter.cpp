@@ -1,5 +1,4 @@
 #include "ProcCenter.h"
-
 int n = 1;
 vector<inf> date;
 inf::inf(string _name, string _famil, string _otch, string _parol,int _money) {
@@ -68,7 +67,6 @@ ProcCenter::ProcCenter(const inf &d) {
   SetINF(date);
   date.pop_back();
 }
-
 void ProcCenter::AddPers() {
   system("cls");
   string persName, persFamil, persOtchestvo, parol;

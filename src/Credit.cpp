@@ -54,7 +54,6 @@ void Credit::podasV(ProcCenter &c) {
   }
   viborC(c);
 }
-
 void Credit::Vhod(ProcCenter &c) {
   int v = -1;
   cout << "Нажмите 1 если хотите войти в систему" << endl;
@@ -77,7 +76,7 @@ void Credit::VZCredit(ProcCenter &c) {
     cout << "У вас нет кредита" << endl;
     cout << "Имя:" << endl;
     cout << c.pers[nomer].persName << endl;
-    cout << "Фвмилия:" << endl;
+    cout << "Фамилия:" << endl;
     cout << c.pers[nomer].persFamil << endl;
     cout << "Отчество:" << endl;
     cout << c.pers[nomer].persOtchestvo << endl;
@@ -88,10 +87,8 @@ void Credit::VZCredit(ProcCenter &c) {
     cout << "Данные по кредиту" << endl;
     cout << "Имя:" << endl;
     cout << c.pers[nomer].persName << endl;
-    cout << "Фвмилия:" << endl;
+    cout << "Фамилия:" << endl;
     cout << c.pers[nomer].persFamil << endl;
-    cout << "Отчество:" << endl;
-    cout << c.pers[nomer].persOtchestvo << endl;
     cout << "Отчество:" << endl;
     cout << c.pers[nomer].persOtchestvo << endl;
     cout << "Ваш счет" << endl;
@@ -207,7 +204,6 @@ void Credit::polkredit(ProcCenter &c) {
   viborC(c);
 
 }
-
 int Credit::malo(int summ,ProcCenter &c) {
   int  proc;
   int srok=1;
@@ -337,7 +333,6 @@ int Credit::Wow(int summ, ProcCenter &c) {
   kredit = raschetC(summ, srok, proc);
   return kredit;
 }
-
 void Credit::infCredit(ProcCenter &c) {
   if (c.pers[nomer].kredinf == true) {
     cout << "У вас есть кредит!" << endl;
@@ -446,4 +441,3 @@ void Credit::viborC (ProcCenter &d) {
   case 8: exit(0);           break;
   }
 }
-

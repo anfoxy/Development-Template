@@ -23,7 +23,6 @@ public:
   friend class inf;
   void poisk(ProcCenter &d);
   Credit() {}
- 
   ~Credit() {}
   int Credit::proverka(ProcCenter &c,int kredit);
   void polkredit(ProcCenter &c);
