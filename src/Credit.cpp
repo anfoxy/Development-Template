@@ -2,15 +2,22 @@
 #include "ProcCenter.h"
 
 void Credit::poisk(ProcCenter & d) {
+ 
   int v = -1;
   bool t = false;
   for (int i = 0; i < d.pers.size(); i++) {
     if ((d.pers[i].parol == dann.porol) && (d.pers[i].schet == dann.schet)) { 
       nomer = i;
       t = true;
+      dann.blok = 0;
     }
   }
   if (t == false) {
+    dann.blok++;
+    if (dann.blok==3) {
+      blok(d);
+
+    }
     cout << "Неверный счет или пароль" << endl;
     cout << "Нажмите 1 если хотите попробовать снова" << endl;
     cout << "Нажмите 2 если хотите зарегистрироваться" << endl;
@@ -19,8 +26,8 @@ void Credit::poisk(ProcCenter & d) {
       cin >> v;
     }
     switch (v) {
-    case 1:  Vhod(d);                               break;
-    case 2:  d.AddPers(); nomer=d.pers.size()-1;    break;
+    case 1:  Vhod2(d);                               break;
+    case 2:  d.AddPers(); nomer=d.pers.size()-1; dann.blok = 0;  break;
     }
   }
 }
@@ -69,6 +76,25 @@ void Credit::podasV(ProcCenter &c) {
   }
   viborC(c);
 }
+void Credit::blok(ProcCenter &c) {
+  dann.blok = 0;
+  cout << "Вы сделали слишком много попыток" << endl;
+  cout << "Ваша карта заблокирована на 20 секунд" << endl;
+  cout << "Обратный отсчет:" << endl;
+  for (int i = 20; i > 0; i--) {
+    cout << i<<endl;
+    Sleep(1000);
+  }
+  Vhod(c);
+}
+void Credit::Vhod2(ProcCenter &c) {
+    cout << "Ваш номер счета: ";
+    cin >> dann.schet;
+    cout << "Пароль: ";
+    cin >> dann.porol;
+    poisk(c);
+
+}
 void Credit::Vhod(ProcCenter &c) {
   int v = -1;
   cout << "Нажмите 1 если хотите войти в систему" << endl;
@@ -77,10 +103,10 @@ void Credit::Vhod(ProcCenter &c) {
     cin >> v;
   }
   switch (v) {
-  case 1:  cout << "Пароль: ";
-    cin >> dann.porol;
-    cout << "Ваш номер счета: ";
+  case 1:   cout << "Ваш номер счета: ";
     cin >> dann.schet;
+    cout << "Пароль: ";
+    cin >> dann.porol;
     poisk(c);                                         break;
   case 2:  c.AddPers(); nomer = c.pers.size() - 1;    break;
   }
@@ -131,9 +157,30 @@ int raschetC(int sum,int srok,int proc) {
   kredit = sum * kredit;
   return (int)kredit;
 }
+void ProcCenter::setCredit(int nomer,int _kredit, int summ, int kol) {
+  pers[nomer].plata_po_kredity = _kredit;
+  pers[nomer].vzkredit = summ;
+  pers[nomer].kol = kol;
+  pers[nomer].money = pers[nomer].money + summ;
+  pers[nomer].kredinf = true;
+
+}
 void Credit::polkredit(ProcCenter &c) {
-  if (c.pers[nomer].kredinf == true) {
-    cout << "У вас есть кредит!" << endl;
+  cout << "Введите пароль:"<<endl;
+
+  cin >> dann.porol;
+  while (dann.porol != c.pers[nomer].parol && dann.blok != 3)
+  {
+    dann.blok++;
+    cout << "Неверый пароль" << endl;
+    cout << "Попробуйте снова" << endl;
+    cout << "Пароль: " << endl;
+    cin >> dann.porol;
+  }
+  
+  if (dann.blok == 3) {
+    cout << "После обратного отсчета войдите в систему снова" << endl;
+    blok(c);
   }
   else {
     int summ;
@@ -158,11 +205,7 @@ void Credit::polkredit(ProcCenter &c) {
       odob = proverka(c, _kredit);
       if (odob == 1) {
         cout << "кредит  одобрен" << endl;
-        c.pers[nomer].plata_po_kredity = _kredit;
-        c.pers[nomer].vzkredit = summ;
-        c.pers[nomer].kol = 12;
-        c.pers[nomer].money = c.pers[nomer].money + summ;
-        c.pers[nomer].kredinf = true;
+        c.setCredit(nomer, _kredit, summ, 12);
       }
       else  cout << "кредит был не одобрен" << endl;
       break;
@@ -170,11 +213,7 @@ void Credit::polkredit(ProcCenter &c) {
       odob = proverka(c, _kredit);
       if (odob == 1) {
         cout << "кредит  одобрен" << endl;
-        c.pers[nomer].plata_po_kredity = _kredit;
-        c.pers[nomer].vzkredit = summ;
-        c.pers[nomer].kol = 24;
-        c.pers[nomer].money = c.pers[nomer].money + summ;
-        c.pers[nomer].kredinf = true;
+        c.setCredit(nomer, _kredit, summ, 24);
       }
       else  cout << "кредит был не одобрен" << endl;
       break;
@@ -182,11 +221,7 @@ void Credit::polkredit(ProcCenter &c) {
       odob = proverka(c, _kredit);
       if (odob == 1) {
         cout << "кредит  одобрен" << endl;
-        c.pers[nomer].plata_po_kredity = _kredit;
-        c.pers[nomer].vzkredit = summ;
-        c.pers[nomer].kol = 36;
-        c.pers[nomer].money = c.pers[nomer].money + summ;
-        c.pers[nomer].kredinf = true;
+        c.setCredit(nomer, _kredit, summ, 36);
       }
       else  cout << "кредит был не одобрен" << endl;
       break;
@@ -194,11 +229,7 @@ void Credit::polkredit(ProcCenter &c) {
       odob = proverka(c, _kredit);
       if (odob == 1) {
         cout << "кредит  одобрен" << endl;
-        c.pers[nomer].plata_po_kredity = _kredit;
-        c.pers[nomer].vzkredit = summ;
-        c.pers[nomer].kol = 60;
-        c.pers[nomer].money = c.pers[nomer].money + summ;
-        c.pers[nomer].kredinf = true;
+        c.setCredit(nomer, _kredit, summ, 60);
       }
       else  cout << "кредит был не одобрен" << endl;
       break;
@@ -206,11 +237,7 @@ void Credit::polkredit(ProcCenter &c) {
       odob = proverka(c, _kredit);
       if (odob == 1) {
         cout << "кредит  одобрен" << endl;
-        c.pers[nomer].plata_po_kredity = _kredit;
-        c.pers[nomer].vzkredit = summ;
-        c.pers[nomer].kol = 180;
-        c.pers[nomer].money = c.pers[nomer].money + summ;
-        c.pers[nomer].kredinf = true;
+        c.setCredit(nomer, _kredit, summ, 180);
       }
       else  cout << "кредит был не одобрен" << endl;
       break;

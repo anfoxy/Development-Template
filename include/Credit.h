@@ -13,6 +13,7 @@ using namespace std;
 struct po{
   string schet;
   string porol;
+  int blok=0;
 };
 class Credit {
 private:
@@ -37,6 +38,8 @@ public:
   void viborA(ProcCenter &d);
   void viborC(ProcCenter &d);
   void Vhod( ProcCenter &d);
+  void Vhod2(ProcCenter &d);
+  void blok(ProcCenter &d);
   void podasN(ProcCenter &d);
   void podasV(ProcCenter &d);
 };

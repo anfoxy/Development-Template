@@ -47,6 +47,7 @@ public:
   friend class inf;
   ProcCenter() {}
   ~ProcCenter() {}
+  void setCredit(int nom, int _kredit, int summ, int kol);
   void AddPers();
   ProcCenter(const inf &d);
   void SetINF(vector <inf> pers1) {
